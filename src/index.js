@@ -10,6 +10,6 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <App />
-    {/* <Posts name="Nigeria" address="42 westpark" /> */}
+    {/* <Posts name="Enjoyed it" address="Highland Ave, Los Angeles, CA" /> */}
   </React.StrictMode>
 );

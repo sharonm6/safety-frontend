@@ -10,8 +10,11 @@ const Modal = ({
   onClose,
   map,
 }) => {
+  const [hasTripInstructions, setHasTripInstructions] = useState(false);
+
   const handleBackgroundClick = (e) => {
     if (e.target.className === "modal open") {
+      setHasTripInstructions(false);
       onClose();
     }
   };
@@ -136,13 +139,12 @@ const Modal = ({
     const instructions = document.getElementById("instructions");
     const steps = data.legs[0].steps;
 
+    setHasTripInstructions(true);
     let tripInstructions = "";
     for (const step of steps) {
       tripInstructions += `<li>${step.maneuver.instruction}</li>`;
     }
-    instructions.innerHTML = `<p><strong>Trip duration: ${Math.floor(
-      data.duration / 60
-    )} min 🚴 </strong></p><ol>${tripInstructions}</ol>`;
+    instructions.innerHTML = `<p><strong>Directions: </strong></p><ol>${tripInstructions}</ol>`;
   }
 
   return (
@@ -150,11 +152,20 @@ const Modal = ({
       className={`modal ${isOpen ? "open" : ""}`}
       onClick={handleBackgroundClick}
     >
-      <div id="instructions"></div>
+      <div
+        id="instructions"
+        className={
+          hasTripInstructions
+            ? "text-xl flex flex-col align-right mt-36 bg-white rounded-lg shadow-sm ml-28 mr-4 p-6 list-decimal"
+            : "hidden"
+        }
+      ></div>
       <div className="modal-content" style={{ position: "relative" }}>
         <div style={{ flexGrow: 1 }}>
           <div>
-            <p className="location-name" style={{ margin: 6, marginTop: 15 }}>{description.name}</p>
+            <p className="location-name" style={{ margin: 6, marginTop: 15 }}>
+              {description.name}
+            </p>
           </div>
           <div className="location-address">
             <p style={{ margin: 6, marginTop: 0 }}>{description.address}</p>
@@ -220,11 +231,11 @@ const Modal = ({
                 margin: 6,
                 marginTop: 10,
                 borderRadius: 25,
-                border: 'none',
-                backgroundColor: 'rgb(81,37,137)',
-                color: 'white',
-                height: '30px',
-                width: '130px',
+                border: "none",
+                backgroundColor: "rgb(81,37,137)",
+                color: "white",
+                height: "30px",
+                width: "130px",
               }}
             >
               Experiences
