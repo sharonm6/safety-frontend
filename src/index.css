@@ -9,7 +9,6 @@ body, html {
     width: 100vw;
 }
 
-  
 .marker {
     position: relative; 
     width: 30px;
@@ -30,4 +29,25 @@ body, html {
     height: 10px;
     background-color: white;
     border-radius: 50%;
+}
+
+.mapboxgl-ctrl-top-right {
+    top: auto;
+    bottom: 20px;
+    right: 10px;
+}
+
+.mapboxgl-ctrl-top-left {
+    top: 12px;
+    left: 15px;
+    right: 15px;
+    width: 90%;
+}
+
+.mapboxgl-ctrl-bottom-right {
+    display: None
+}
+
+.mapboxgl-ctrl-bottom-left {
+    display: None
 }
