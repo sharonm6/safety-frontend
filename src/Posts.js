@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
 import PostTag from "./components/posts/PostTag";
+import Experience from "./components/posts/Experience";
+import PostInfo from "./components/posts/PostInfo";
 
-const Posts = () => {
-  const address = "Nigeria";
+const Posts = ({ name, address }) => {
   const [posts, setPosts] = useState([]);
   const [tags, setTags] = useState([]);
+  const [overallScore, setOverallScore] = useState(0);
 
   useEffect(() => {
     const fetchData = () => {
@@ -19,22 +21,30 @@ const Posts = () => {
           if (json["success"]) {
             setPosts(json["data"]["posts"]);
             setTags(json["data"]["tags"]);
+            setOverallScore(json["data"]["overall_score"]);
           }
         });
     };
     fetchData();
-  }, []);
+  });
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100vh" }}>
-      {tags &&
-        tags.map((tagInfo) => {
-          return (
-            <div key={tagInfo[0]}>
-              <PostTag tagName={`${tagInfo[0]} (${tagInfo[1]})`} />
-            </div>
-          );
-        })}
+    <div>
+      <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+        <div className="posts-container">
+          <PostInfo title={name} address={address} safety={overallScore} />
+        </div>
+        {posts &&
+          posts.map((post, index) => <Experience key={index} post={post} />)}
+        {tags &&
+          tags.map((tagInfo) => {
+            return (
+              <div key={tagInfo[0]}>
+                <PostTag tagName={`${tagInfo[0]} (${tagInfo[1]})`} />
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };
