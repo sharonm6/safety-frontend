@@ -9,7 +9,20 @@ body, html {
     width: 100vw;
 }
 
-.search-bar-container {
+  
+.marker {
+    position: relative; /* Ensure the marker has a relative position */
+    width: 30px;
+    height: 30px;
+    background-color: #512589;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 2px;
+}
+
+/* Inner circle */
+.marker::after {
+    content: '';
     position: absolute;
     top: 20px;
     left: 20px;
