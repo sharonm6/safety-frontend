@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import PostTagOption from "./components/posts/PostTagOption";
 import PostInfo from "./components/posts/PostInfo";
+import { Link } from "react-router-dom";
 
 const CreatePost = ({ name, address, overallScore }) => {
   const [body, setBody] = useState("");
@@ -26,9 +27,9 @@ const CreatePost = ({ name, address, overallScore }) => {
     // Extract the components
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
     const day = String(date.getDate()).padStart(2, "0");
-    const year = date.getFullYear().slice(-2);
+    const year = date.getFullYear();
 
-    // Combine the components into the "MM/DD/YYYY" format
+    // Combine the components into the "MM/DD/YY" format
     return `${month}/${day}/${year}`;
   };
 
@@ -110,13 +111,16 @@ const CreatePost = ({ name, address, overallScore }) => {
             placeholder="Post your experience here..."
           />
         </div>
-        <button
-          type="button"
-          className={`inline-flex items-center gap-x-1.5 rounded-full bg-[#512589] text-white border-[#512589] px-3.5 py-1.5 text-sm font-semibold shadow-sm border`}
-          onClick={() => handleSubmit()}
-        >
-          Post
-        </button>
+
+        <Link to="/">
+          <button
+            type="button"
+            className={`inline-flex items-center gap-x-1.5 rounded-full bg-[#512589] text-white border-[#512589] px-3.5 py-1.5 text-sm font-semibold shadow-sm border`}
+            onClick={() => handleSubmit()}
+          >
+            Post
+          </button>
+        </Link>
       </div>
     </div>
   );
