@@ -64,7 +64,7 @@ const MapComponent = () => {
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       marker: {
-        color: '#512589',
+        color: '#b1282d',
       },
       placeholder: 'Search',
     });
