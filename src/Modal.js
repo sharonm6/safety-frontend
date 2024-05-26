@@ -153,8 +153,8 @@ const Modal = ({
       <div id="instructions"></div>
       <div className="modal-content" style={{ position: "relative" }}>
         <div style={{ flexGrow: 1 }}>
-          <div className="location-name">
-            <p style={{ margin: 6, marginTop: 15 }}>{description.name}</p>
+          <div>
+            <p className="location-name" style={{ margin: 6, marginTop: 15 }}>{description.name}</p>
           </div>
           <div className="location-address">
             <p style={{ margin: 6, marginTop: 0 }}>{description.address}</p>
@@ -220,11 +220,11 @@ const Modal = ({
                 margin: 6,
                 marginTop: 10,
                 borderRadius: 25,
-                border: "none",
-                backgroundColor: "rgb(81,37,137)",
-                color: "white",
-                height: "30px",
-                width: "100px",
+                border: 'none',
+                backgroundColor: 'rgb(81,37,137)',
+                color: 'white',
+                height: '30px',
+                width: '130px',
               }}
             >
               Experiences

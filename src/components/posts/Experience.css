@@ -2,8 +2,9 @@
   border: 1px solid #ddd;
   padding: 10px;
   border-radius: 8px;
-  width: 300px;
+  width: 95%;
   background-color: #f7f7f7;
+  align-content: center;
 }
 
 .header {
