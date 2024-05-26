@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import PostTag from "./components/posts/PostTag";
 import Experience from "./components/posts/Experience";
 import PostInfo from "./components/posts/PostInfo";
+import "./components/posts/Posts.css";
 
 const Posts = ({ name, address }) => {
   const [posts, setPosts] = useState([]);
@@ -34,16 +35,23 @@ const Posts = ({ name, address }) => {
         <div className="posts-container">
           <PostInfo title={name} address={address} safety={overallScore} />
         </div>
-        {posts &&
-          posts.map((post, index) => <Experience key={index} post={post} />)}
+
+      <div className="tags-container">
         {tags &&
-          tags.map((tagInfo) => {
-            return (
-              <div key={tagInfo[0]}>
-                <PostTag tagName={`${tagInfo[0]} (${tagInfo[1]})`} />
-              </div>
-            );
-          })}
+            tags.map((tagInfo) => {
+              return (
+                <div key={tagInfo[0]}>
+                  <PostTag tagName={`${tagInfo[0]} (${tagInfo[1]})`} />
+                </div>
+              );
+            })}
+      </div>
+        
+        <p className="title">{posts.length} Experiences</p>
+        <div className="experiences">
+          {posts &&
+            posts.map((post, index) => <Experience key={index} post={post} />)}
+        </div>
       </div>
     </div>
   );

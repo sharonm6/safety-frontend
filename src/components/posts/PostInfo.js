@@ -10,8 +10,8 @@ const PostInfo = ({ title, address, safety }) => {
         rating.push(
           <svg
             key={i}
-            width="20"
-            height="15"
+            width="40"
+            height="30"
             viewBox="0 0 18 17"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -29,8 +29,8 @@ const PostInfo = ({ title, address, safety }) => {
         rating.push(
           <svg
             key={i}
-            width="20"
-            height="15"
+            width="40"
+            height="30"
             viewBox="0 0 18 17"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -51,14 +51,35 @@ const PostInfo = ({ title, address, safety }) => {
   return (
     <div className="post">
       <div className="post-content">
-        <div className="post-title">{title}</div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <div className="post-title">{title}</div>
+          <div className="directions-button">
+            <button
+              style={{
+                borderRadius: 25,
+                border: "none",
+                backgroundColor: "rgb(81,37,137)",
+                color: "white",
+                height: "38px",
+                width: "170px",
+                marginLeft: "110px", 
+              }}
+            >
+              Post an Experience
+            </button>
+          </div>
+        </div>
         <div className="post-address">{address}</div>
         <div className="post-safety">
-          Safety Score: {renderSafetyRating(safety)}
-        </div>
-        <div className="post-buttons">
-          <button className="post-button">Directions</button>
-          <button className="post-button">Experiences</button>
+          <div style={{ display: "flex", alignItems: "center", marginTop: 10 }}>
+            <div className="safety-score-text">
+              <p style={{ margin: 1 }}>Safety Score: </p>
+            </div>
+          </div>
+          <div className="safety-hearts">
+            {/* Render safety rating hearts */}
+            {renderSafetyRating(safety)}
+          </div>
         </div>
       </div>
     </div>
