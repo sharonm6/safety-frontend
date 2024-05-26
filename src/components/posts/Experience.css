@@ -1,0 +1,57 @@
+.experience {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  width: 300px;
+  background-color: #f7f7f7;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.calendar {
+  margin-left: auto;
+}
+
+.date {
+  margin-left: 5px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.heart {
+  color: #d3d3d3;
+}
+
+.heart.filled {
+  color: #d49dff;
+}
+
+.description {
+  margin: 10px 0;
+}
+
+.like {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.thumbs-up {
+  cursor: pointer;
+  color: #aaa;
+}
