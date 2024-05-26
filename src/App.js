@@ -1,8 +1,8 @@
-import React, { useRef, useEffect, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import React, { useRef, useEffect, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "mapbox-gl/dist/mapbox-gl.css";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import ReactDOM from "react-dom";
 // import geoJson from "./data.json";
 import Modal from './Modal';
@@ -10,7 +10,8 @@ import "./index.css";
 import HeatMapToggle from './components/HeatMapToggle';
 import HeatLayer from './components/HeatLayer';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiYXVkLWRyZWFtcyIsImEiOiJjbHdtazk1eTkwaDUxMmlwb2d1ZzM1N3ZtIn0.fK_tYF0yFBfCum4y4LXtSA';
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiYXVkLWRyZWFtcyIsImEiOiJjbHdtazk1eTkwaDUxMmlwb2d1ZzM1N3ZtIn0.fK_tYF0yFBfCum4y4LXtSA";
 
 const Marker = ({ onClick, children, feature }) => {
   const _onClick = () => {
@@ -64,16 +65,16 @@ const MapComponent = () => {
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       marker: {
-        color: '#512589',
+        color: "#512589",
       },
-      placeholder: 'Search',
+      placeholder: "Search",
     });
 
     // Add the geocoder to the map
-    mapRef.current.addControl(geocoder, 'top-left');
+    mapRef.current.addControl(geocoder, "top-left");
 
     // Event listener for when a result is selected
-    geocoder.on('result', (e) => {
+    geocoder.on("result", (e) => {
       const { result } = e;
       if (result && result.geometry && result.geometry.coordinates) {
         const [lng, lat] = result.geometry.coordinates;
