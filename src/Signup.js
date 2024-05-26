@@ -57,10 +57,14 @@ const SignUp = () => {
 
         <div className="form-group">
           <label htmlFor="ethnicity">Ethnicity</label>
-          <select id="ethnicity" name="ethnicity">
-            <option value="">Choose option</option>
-            {/* Add options as needed */}
-          </select>
+          <div id="ethnicity" name="ethnicity">
+            <input type="radio" id="female" name="gender" value="female" />
+            <label htmlFor="female">Female</label>
+            <input type="radio" id="male" name="gender" value="male" />
+            <label htmlFor="male">Male</label>
+            <input type="radio" id="other" name="gender" value="other" />
+            <label htmlFor="other">Other</label>
+          </div>
         </div>
 
         <button type="submit">Sign up</button>

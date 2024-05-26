@@ -35,8 +35,8 @@ const Posts = ({ name, address }) => {
         <div className="posts-container">
           <PostInfo title={name} address={address} safety={overallScore} />
         </div>
-      <div className="tags-container">
-        {tags &&
+        <div className="tags-container">
+          {tags &&
             tags.map((tagInfo) => {
               return (
                 <div key={tagInfo[0]}>
@@ -44,8 +44,8 @@ const Posts = ({ name, address }) => {
                 </div>
               );
             })}
-      </div>
-        
+        </div>
+
         <p className="title">{posts.length} Experiences</p>
         <div className="experiences">
           {posts &&
