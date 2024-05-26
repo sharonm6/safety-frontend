@@ -9,15 +9,25 @@ body, html {
     width: 100vw;
 }
   
-.sidebar {
-    background-color: rgb(35 55 75 / 90%);
-    color: #fff;
-    padding: 6px 12px;
-    font-family: monospace;
-    z-index: 1;
+.marker {
+    position: relative; /* Ensure the marker has a relative position */
+    width: 30px;
+    height: 30px;
+    background-color: #512589;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 2px;
+}
+
+/* Inner circle */
+.marker::after {
+    content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    margin: 12px;
-    border-radius: 4px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
 }
