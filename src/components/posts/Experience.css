@@ -4,7 +4,6 @@
   align-items: flex-start;
   padding: 15px;
   width: 100%;
-  margin-bottom: 20px;
 }
 
 .header {
@@ -74,6 +73,8 @@
 .like {
   display: flex;
   justify-content: flex-end;
+  align-items: end;
+  width: 100%;
 }
 
 .thumbs-up {
