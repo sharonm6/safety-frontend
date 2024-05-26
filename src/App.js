@@ -9,6 +9,8 @@ import Modal from "./Modal";
 import "./index.css";
 import HeatMapToggle from "./components/HeatMapToggle";
 import HeatLayer from "./components/HeatLayer";
+import { UserCircleIcon } from "@heroicons/react/16/solid";
+import { Link } from "react-router-dom";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXVkLWRyZWFtcyIsImEiOiJjbHdtazk1eTkwaDUxMmlwb2d1ZzM1N3ZtIn0.fK_tYF0yFBfCum4y4LXtSA";
@@ -30,16 +32,15 @@ const Marker = ({ onClick, children, feature }) => {
   );
 };
 
-
-  // Initialize the geocoder
-  const geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    mapboxgl: mapboxgl,
-    marker: {
-      color: '#b1282d',
-    },
-    placeholder: "Search",
-  });
+// Initialize the geocoder
+const geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl,
+  marker: {
+    color: "#b1282d",
+  },
+  placeholder: "Search",
+});
 
 const MapComponent = () => {
   const mapContainerRef = useRef(null);
@@ -96,7 +97,7 @@ const MapComponent = () => {
           coordinates: [lng, lat],
         });
         console.log(originalLocation);
-        
+
         clearMarkers();
 
         fetch(
@@ -130,7 +131,6 @@ const MapComponent = () => {
     };
   }, []);
 
-
   useEffect(() => {
     if (fetchedData && fetchedData.data && fetchedData.data.features) {
       clearMarkers();
@@ -153,20 +153,14 @@ const MapComponent = () => {
       const originalMarker = new mapboxgl.Marker({ color: "#b1282d" })
         .setLngLat(originalLocation.coordinates)
         .addTo(mapRef.current);
-  
+
       // event listener for original location marker
       originalMarker.getElement().addEventListener("click", () => {
-        markerClicked(
-          originalLocation.address,
-          originalLocation.name,
-          -1
-        );
+        markerClicked(originalLocation.address, originalLocation.name, -1);
       });
-  
+
       markersRef.current.push(originalMarker);
     }
-
-  
   }, [fetchedData, originalLocation]);
 
   useEffect(() => {
@@ -208,6 +202,18 @@ const MapComponent = () => {
   return (
     <div style={{ position: "relative", width: "100%", height: "100vh" }}>
       <div ref={mapContainerRef} style={{ width: "100%", height: "100%" }} />
+      <Link to="/signup">
+        <UserCircleIcon
+          style={{
+            position: "absolute",
+            top: "87px",
+            bottom: "auto",
+            right: "20px",
+            left: "auto",
+            height: "40px",
+          }}
+        />
+      </Link>
       <HeatMapToggle onClick={handleHeatmapToggle} />
       {showHeatmap && heatmapData && (
         <HeatLayer map={mapRef.current} heatData={heatmapData} />

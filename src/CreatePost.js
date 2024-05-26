@@ -30,7 +30,7 @@ const CreatePost = ({ name, address }) => {
     const day = String(date.getDate()).padStart(2, "0");
     const year = String(date.getFullYear()).slice(-2);
 
-    // Combine the components into the "MM/DD/YYYY" format
+    // Combine the components into the "MM/DD/YY" format
     return `${month}/${day}/${year}`;
   };
 
