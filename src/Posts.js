@@ -20,15 +20,17 @@ const Posts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/posts?location=${address}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `http://127.0.0.1:5000/posts?location=${address}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         const json = await response.json();
         if (json.success) {
-          console.log('JSON', json)
           setPosts(json.data.posts);
           setTags(json.data.tags);
           setOverallScore(json.data.overall_score);
@@ -38,7 +40,7 @@ const Posts = () => {
       }
     };
     fetchData();
-    console.log('POSTS', posts)
+    console.log("POSTS", posts);
   }, [address]);
 
   return (
@@ -50,21 +52,22 @@ const Posts = () => {
 
         <div className="tags-container">
           {tags &&
-              tags.map((tagInfo) => {
-                return (
-                  <div key={tagInfo[0]}>
-                    <PostTag tagName={`${tagInfo[0]} (${tagInfo[1]})`} />
-                  </div>
-                );
-              })}
+            tags.map((tagInfo) => {
+              return (
+                <div key={tagInfo[0]}>
+                  <PostTag tagName={`${tagInfo[0]} (${tagInfo[1]})`} />
+                </div>
+              );
+            })}
         </div>
-          
-      <div className="bottom">
-        <p className="title">{posts.length} Experiences</p>
-        <div className="experiences">
-          {posts.map((post, index) => (
-            <Experience key={index} post={post} />
-          ))}
+
+        <div className="bottom">
+          <p className="title">{posts.length} Experiences</p>
+          <div className="experiences">
+            {posts.map((post, index) => (
+              <Experience key={index} post={post} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
