@@ -1,9 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
 
 .post {
+  border: 1px solid #ddd;
   padding: 20px;
   border-radius: 8px;
   width: 100%;
+  background-color: #fff;
+  margin-bottom: 20px;
 }
 
 .post-content {

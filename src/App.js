@@ -5,17 +5,22 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import ReactDOM from "react-dom";
 // import geoJson from "./data.json";
-import Modal from './Modal';
+import Modal from "./Modal";
 import "./index.css";
-import HeatMapToggle from './components/HeatMapToggle';
-import HeatLayer from './components/HeatLayer';
+import HeatMapToggle from "./components/HeatMapToggle";
+import HeatLayer from "./components/HeatLayer";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYXVkLWRyZWFtcyIsImEiOiJjbHdtazk1eTkwaDUxMmlwb2d1ZzM1N3ZtIn0.fK_tYF0yFBfCum4y4LXtSA";
 
 const Marker = ({ onClick, children, feature }) => {
   const _onClick = () => {
-    onClick(feature.properties.name, feature.properties.address, feature.properties.safety);
+    onClick(
+      feature.properties.name,
+      feature.properties.address,
+      feature.properties.safety,
+      feature.geometry.coordinates
+    );
   };
 
   return (
@@ -25,15 +30,29 @@ const Marker = ({ onClick, children, feature }) => {
   );
 };
 
+
+  // Initialize the geocoder
+  const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+    marker: {
+      color: '#b1282d',
+    },
+    placeholder: "Search",
+  });
+
 const MapComponent = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const [heatmapData, setHeatmapData] = useState(null);
   const [showHeatmap, setShowHeatmap] = useState(true);
   const [modalDescription, setModalDescription] = useState([]);
+  const [modalStartCoords, setModalStartCoords] = useState([]);
+  const [modalEndCoords, setModalEndCoords] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [fetchedData, setFetchedData] = useState(null); 
+  const [fetchedData, setFetchedData] = useState(null);
   const markersRef = useRef([]);
+  const [originalLocation, setOriginalLocation] = useState(null);
 
   useEffect(() => {
     console.log("Initializing the map");
@@ -41,7 +60,7 @@ const MapComponent = () => {
     // Initialize the map
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: 'mapbox://styles/aud-dreams/clwmm6n3200vc01q17qorbayl',
+      style: "mapbox://styles/aud-dreams/clwmm6n3200vc01q17qorbayl",
       center: [-118.23965907096863, 34.055922765889704], // Initial center [lng, lat]
       zoom: 14, // Initial zoom
     });
@@ -50,25 +69,15 @@ const MapComponent = () => {
     mapRef.current.addControl(
       new mapboxgl.GeolocateControl({
         positionOptions: {
-          enableHighAccuracy: true
+          enableHighAccuracy: true,
         },
         trackUserLocation: true,
-        showUserHeading: true
+        showUserHeading: true,
       })
     );
 
     // Add navigation control (the +/- zoom buttons)
     mapRef.current.addControl(new mapboxgl.NavigationControl());
-
-    // Initialize the geocoder
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-      marker: {
-        color: '#b1282d',
-      },
-      placeholder: "Search",
-    });
 
     // Add the geocoder to the map
     mapRef.current.addControl(geocoder, "top-left");
@@ -78,23 +87,34 @@ const MapComponent = () => {
       const { result } = e;
       if (result && result.geometry && result.geometry.coordinates) {
         const [lng, lat] = result.geometry.coordinates;
+        setModalStartCoords([lng, lat]);
         const currentHour = new Date().getHours();
 
+        setOriginalLocation({
+          name: result.place_name,
+          address: result.text,
+          coordinates: [lng, lat],
+        });
+        console.log(originalLocation);
+        
         clearMarkers();
 
-        fetch(`http://127.0.0.1:5000/map/nearby?lat=${lat}&lon=${lng}&time=${currentHour}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        fetch(
+          `http://127.0.0.1:5000/map/nearby?lat=${lat}&lon=${lng}&time=${currentHour}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
           .then((response) => response.json())
           .then((json) => {
             console.log(json);
             setFetchedData(json);
           })
           .catch((error) => {
-            console.error('Error fetching data:', error);
+            console.error("Error fetching data:", error);
           });
 
         // Fly to the selected location
@@ -110,31 +130,55 @@ const MapComponent = () => {
     };
   }, []);
 
+
   useEffect(() => {
     if (fetchedData && fetchedData.data && fetchedData.data.features) {
       clearMarkers();
 
       fetchedData.data.features.forEach((feature) => {
         const ref = React.createRef();
-        ref.current = document.createElement('div');
+        ref.current = document.createElement("div");
         ReactDOM.render(
           <Marker onClick={markerClicked} feature={feature} />,
           ref.current
         );
-        const marker = new mapboxgl.Marker(ref.current).setLngLat(feature.geometry.coordinates).addTo(mapRef.current);
+        const marker = new mapboxgl.Marker(ref.current)
+          .setLngLat(feature.geometry.coordinates)
+          .addTo(mapRef.current);
 
         markersRef.current.push(marker);
       });
     }
-  }, [fetchedData]);
+    if (originalLocation) {
+      const originalMarker = new mapboxgl.Marker({ color: "#b1282d" })
+        .setLngLat(originalLocation.coordinates)
+        .addTo(mapRef.current);
+  
+      // event listener for original location marker
+      originalMarker.getElement().addEventListener("click", () => {
+        markerClicked(
+          originalLocation.address,
+          originalLocation.name,
+          -1
+        );
+      });
+  
+      markersRef.current.push(originalMarker);
+    }
+
+  
+  }, [fetchedData, originalLocation]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/map/heatmap?user_id=3995e0eb01af4714b3724b0e8a65661f', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    fetch(
+      "http://127.0.0.1:5000/map/heatmap?user_id=3995e0eb01af4714b3724b0e8a65661f",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
@@ -147,8 +191,9 @@ const MapComponent = () => {
     markersRef.current = [];
   };
 
-  const markerClicked = (name, address, safety) => {
+  const markerClicked = (name, address, safety, coords) => {
     setModalDescription({ name, address, safety });
+    setModalEndCoords(coords);
     setIsModalOpen(true);
   };
 
@@ -161,11 +206,20 @@ const MapComponent = () => {
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
+    <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+      <div ref={mapContainerRef} style={{ width: "100%", height: "100%" }} />
       <HeatMapToggle onClick={handleHeatmapToggle} />
-      {showHeatmap && heatmapData && <HeatLayer map={mapRef.current} heatData={heatmapData} />}
-      <Modal isOpen={isModalOpen} description={modalDescription} onClose={closeModal} />
+      {showHeatmap && heatmapData && (
+        <HeatLayer map={mapRef.current} heatData={heatmapData} />
+      )}
+      <Modal
+        isOpen={isModalOpen}
+        description={modalDescription}
+        onClose={closeModal}
+        map={mapRef.current}
+        endCoords={modalEndCoords}
+        startCoords={modalStartCoords}
+      />
     </div>
   );
 };
