@@ -1,5 +1,6 @@
 import React from "react";
 import "./PostInfo.css";
+import { Link } from "react-router-dom";
 
 const PostInfo = ({ title, address, safety }) => {
   const renderSafetyRating = (safety) => {
@@ -54,21 +55,23 @@ const PostInfo = ({ title, address, safety }) => {
         <div style={{ display: "flex", justifyContent: "space-between"}}>
           <div className="post-title">{title}</div>
           <div className="directions-button">
-            <button
-              style={{
-                borderRadius: 25,
-                border: "none",
-                backgroundColor: "rgb(81,37,137)",
-                color: "white",
-                height: "40px",
-                width: "170px",
-                marginTop: "5px",
-                marginRight: "-10px",
-                marginBottom: "15px"
-              }}
-            >
-              Post an Experience
-            </button>
+            <Link to="/createpost">
+              <button
+                style={{
+                  borderRadius: 25,
+                  border: "none",
+                  backgroundColor: "rgb(81,37,137)",
+                  color: "white",
+                  height: "40px",
+                  width: "170px",
+                  marginTop: "5px",
+                  marginRight: "-10px",
+                  marginBottom: "15px"
+                }}
+              >
+                Post an Experience
+              </button>
+            </Link>
           </div>
         </div>
         <div className="post-address">{address}</div>

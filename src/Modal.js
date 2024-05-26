@@ -235,7 +235,10 @@ const Modal = ({
               </svg>
               Directions
             </button>
-            <Link to="/posts">
+            <Link
+            to={`/posts?name=${encodeURIComponent(description.name)}&address=${encodeURIComponent(description.address)}&safety=${description.safety}`}
+            className="experiences-link"
+            >
               <button
                 style={{
                   margin: 6,
