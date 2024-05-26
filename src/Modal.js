@@ -1,9 +1,17 @@
-import React from 'react';
-import './Modal.css';
+import React from "react";
+import { useState } from "react";
+import "./Modal.css";
 
-const Modal = ({ isOpen, description, onClose }) => {
+const Modal = ({
+  isOpen,
+  description,
+  startCoords,
+  endCoords,
+  onClose,
+  map,
+}) => {
   const handleBackgroundClick = (e) => {
-    if (e.target.className === 'modal open') {
+    if (e.target.className === "modal open") {
       onClose();
     }
   };
@@ -17,21 +25,128 @@ const Modal = ({ isOpen, description, onClose }) => {
       if (i < safety) {
         // Render pink heart
         rating.push(
-          <svg width="40" height="30" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 5L8.83809 9L13 5" stroke="#DABDFF" stroke-width="10" stroke-linecap="round" />
+          <svg
+            width="40"
+            height="30"
+            viewBox="0 0 18 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 5L8.83809 9L13 5"
+              stroke="#DABDFF"
+              stroke-width="10"
+              stroke-linecap="round"
+            />
           </svg>
         );
       } else {
         // Render grey heart
         rating.push(
-          <svg width="40" height="30" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 5L6.91904 7L8.83809 9L13 5" stroke="#DCDCDC" stroke-width="10" stroke-linecap="round" />
+          <svg
+            width="40"
+            height="30"
+            viewBox="0 0 18 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5 5L6.91904 7L8.83809 9L13 5"
+              stroke="#DCDCDC"
+              stroke-width="10"
+              stroke-linecap="round"
+            />
           </svg>
         );
       }
     }
     return rating;
   };
+
+  async function getRoute(start, end) {
+    if (!map) return;
+
+    if (!map.getLayer("routePoints")) {
+      map.addLayer({
+        id: "routePoints",
+        type: "circle",
+        source: {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                properties: {},
+                geometry: {
+                  type: "Point",
+                  coordinates: start,
+                },
+              },
+            ],
+          },
+        },
+        paint: {
+          "circle-radius": 10,
+          "circle-color": "#3887be",
+        },
+      });
+    }
+
+    const query = await fetch(
+      `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${
+        start[1]
+      };${end[0]},${
+        end[1]
+      }?steps=true&geometries=geojson&access_token=${"pk.eyJ1IjoiYXVkLWRyZWFtcyIsImEiOiJjbHdtazk1eTkwaDUxMmlwb2d1ZzM1N3ZtIn0.fK_tYF0yFBfCum4y4LXtSA"}`,
+      { method: "GET" }
+    );
+    const json = await query.json();
+    const data = json.routes[0];
+    const route = data.geometry.coordinates;
+    const geojson = {
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "LineString",
+        coordinates: route,
+      },
+    };
+    // if the route already exists on the map, we'll reset it using setData
+    if (map.getSource("route")) {
+      map.getSource("route").setData(geojson);
+    }
+    // otherwise, we'll make a new request
+    else {
+      map.addLayer({
+        id: "route",
+        type: "line",
+        source: {
+          type: "geojson",
+          data: geojson,
+        },
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "#3887be",
+          "line-width": 5,
+          "line-opacity": 0.75,
+        },
+      });
+    }
+    const instructions = document.getElementById("instructions");
+    const steps = data.legs[0].steps;
+
+    let tripInstructions = "";
+    for (const step of steps) {
+      tripInstructions += `<li>${step.maneuver.instruction}</li>`;
+    }
+    instructions.innerHTML = `<p><strong>Trip duration: ${Math.floor(
+      data.duration / 60
+    )} min 🚴 </strong></p><ol>${tripInstructions}</ol>`;
+  }
 
   return (
     <div className={`modal ${isOpen ? 'open' : ''}`} onClick={handleBackgroundClick} style={{height: description.safety === -1 ? '750px' : 'auto'}}>
@@ -57,18 +172,24 @@ const Modal = ({ isOpen, description, onClose }) => {
           <div className="directions-button" style={{ display: 'flex', alignItems: 'center' }}>
             <button
               style={{
-                display: 'flex', // Ensure flexbox layout for the button content
-                alignItems: 'center',
-                gap: '5px', // Adjust this value to add space between the SVG and the text
+                display: "flex", // Ensure flexbox layout for the button content
+                alignItems: "center",
+                gap: "5px", // Adjust this value to add space between the SVG and the text
                 margin: 6,
                 marginTop: 10,
                 borderRadius: 25,
-                border: 'none',
-                backgroundColor: 'rgb(81,37,137)',
-                color: 'white',
-                height: '30px',
-                width: '120px',
-                justifyContent: 'center',
+                border: "none",
+                backgroundColor: "rgb(81,37,137)",
+                color: "white",
+                height: "30px",
+                width: "100px",
+                justifyContent: "center",
+              }}
+              onClick={() => {
+                getRoute(
+                  [startCoords[0], startCoords[1]],
+                  [endCoords[0], endCoords[1]]
+                );
               }}
             >
               <svg
