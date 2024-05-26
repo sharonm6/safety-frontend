@@ -1,53 +1,58 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Ensures no scroll bars are visible */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Ensures no scroll bars are visible */
 }
 
 .map-container {
-    height: 100vh;
-    width: 100vw;
+  height: 100vh;
+  width: 100vw;
 }
 
 .marker {
-    position: relative; 
-    width: 30px;
-    height: 30px;
-    background-color: #512589;
-    border-radius: 50% 50% 50% 0;
-    transform: rotate(-45deg);
-    border: 2px;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background-color: #512589;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 2px;
 }
 
 .marker::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    background-color: white;
-    border-radius: 50%;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%;
 }
 
 .mapboxgl-ctrl-top-right {
-    top: auto;
-    bottom: 20px;
-    right: 10px;
+  top: auto;
+  bottom: 20px;
+  right: 10px;
 }
 
 .mapboxgl-ctrl-top-left {
-    top: 12px;
-    left: 15px;
-    right: 15px;
-    width: 90%;
+  top: 12px;
+  left: 15px;
+  right: 15px;
+  width: 90%;
 }
 
 .mapboxgl-ctrl-bottom-right {
-    display: None
+  display: None;
 }
 
 .mapboxgl-ctrl-bottom-left {
-    display: None
+  display: None;
 }
