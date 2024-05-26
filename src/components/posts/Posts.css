@@ -12,9 +12,10 @@
     color: #512589;
     padding-left: 20px;
     padding-top: 50px;
+    width:  100%;
 }
 
 .experiences {
     width: 100%;
-    
+    align-items: center;
 }
