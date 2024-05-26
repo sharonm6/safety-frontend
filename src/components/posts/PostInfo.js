@@ -51,7 +51,7 @@ const PostInfo = ({ title, address, safety }) => {
   return (
     <div className="post">
       <div className="post-content">
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ display: "flex", justifyContent: "space-between"}}>
           <div className="post-title">{title}</div>
           <div className="directions-button">
             <button
@@ -60,9 +60,11 @@ const PostInfo = ({ title, address, safety }) => {
                 border: "none",
                 backgroundColor: "rgb(81,37,137)",
                 color: "white",
-                height: "38px",
+                height: "40px",
                 width: "170px",
-                marginLeft: "110px", 
+                marginTop: "5px",
+                marginRight: "-10px",
+                marginBottom: "15px"
               }}
             >
               Post an Experience
