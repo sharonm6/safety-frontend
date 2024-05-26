@@ -1,7 +1,7 @@
 // ./components/Experience.js
-import React from "react";
 import { CalendarIcon, UserCircleIcon, HandThumbUpIcon } from "@heroicons/react/20/solid";
 import "./Experience.css"; // Create a CSS file for styling
+import React, { useRef, useEffect, useState } from "react";
 
 const renderSafetyRating = (safety) => {
   const rating = [];
@@ -50,6 +50,8 @@ const renderSafetyRating = (safety) => {
 };
 
 const Experience = ({ post}) => {
+  const [upvoted, setUpvoted] = useState(false);
+
   const handleThumbsUpClick = () => {
     const fetchData = () => {
       fetch(`http://127.0.0.1:5000/posts/upvote`, {
@@ -63,6 +65,7 @@ const Experience = ({ post}) => {
         .then((json) => {
           if (json["success"]) {
             console.log("post upvoted");
+            setUpvoted(true);
           }
         })
         .catch((error) => {
@@ -93,7 +96,7 @@ const Experience = ({ post}) => {
         <p>{post.body}</p>
       </div>
       <div className="like" onClick={handleThumbsUpClick}>
-        <HandThumbUpIcon className="icon thumbs-up" />
+      <HandThumbUpIcon className={`icon thumbs-up ${upvoted ? 'upvoted' : ''}`} />
       </div>
     </div>
   );

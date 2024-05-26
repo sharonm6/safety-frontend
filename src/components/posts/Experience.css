@@ -62,9 +62,9 @@
   color: #d3d3d3;
 }
 
-.heart.filled {
+/* .heart.filled {
   color: #d49dff;
-}
+} */
 
 .description {
   margin: 10px 0;
@@ -79,5 +79,9 @@
 
 .thumbs-up {
   cursor: pointer;
-  color: #aaa;
+  color: #d3d3d3;
+}
+
+.thumbs-up.upvoted {
+  color: #d3d3d3; /* Change color when upvoted */
 }

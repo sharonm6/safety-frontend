@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import PostTagOption from "./components/posts/PostTagOption";
-import PostInfo from "./components/posts/PostInfo";
+import PostInfo2 from "./components/posts/PostInfo2";
+import "./components/posts/CreatePost.css";
 
-const CreatePost = ({ name, address, overallScore }) => {
+
+const CreatePost = ({ name, address }) => {
   const [body, setBody] = useState("");
   const [safety, setSafety] = useState(0);
   const [postTags, setPostTags] = useState({
@@ -26,7 +28,7 @@ const CreatePost = ({ name, address, overallScore }) => {
     // Extract the components
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
     const day = String(date.getDate()).padStart(2, "0");
-    const year = date.getFullYear().slice(-2);
+    const year = String(date.getFullYear()).slice(-2);
 
     // Combine the components into the "MM/DD/YYYY" format
     return `${month}/${day}/${year}`;
@@ -75,41 +77,42 @@ const CreatePost = ({ name, address, overallScore }) => {
     <div>
       <div style={{ position: "relative", width: "100%", height: "100vh" }}>
         <div className="posts-container">
-          <PostInfo title={name} address={address} safety={overallScore} />
-          <PostTagOption
-            tagName="Accessible"
-            postTags={postTags}
-            handleSelect={handleSelect}
-          />
-          <PostTagOption
-            tagName="LGBTQ+ Friendly"
-            postTags={postTags}
-            handleSelect={handleSelect}
-          />
-          <PostTagOption
-            tagName="Security presence"
-            postTags={postTags}
-            handleSelect={handleSelect}
-          />
-          <PostTagOption
-            tagName="Safe parking"
-            postTags={postTags}
-            handleSelect={handleSelect}
-          />
-          <PostTagOption
-            tagName="Well-lit"
-            postTags={postTags}
-            handleSelect={handleSelect}
-          />
+          <PostInfo2 title={name} address={address} />
+          <div className="tags-container">
+            <PostTagOption
+              tagName="Accessible"
+              postTags={postTags}
+              handleSelect={handleSelect}
+            />
+            <PostTagOption
+              tagName="Well-lit"
+              postTags={postTags}
+              handleSelect={handleSelect}
+            />
+            <PostTagOption
+              tagName="Safe parking"
+              postTags={postTags}
+              handleSelect={handleSelect}
+            />
+            <PostTagOption
+              tagName="Security presence"
+              postTags={postTags}
+              handleSelect={handleSelect}
+            />
+            <PostTagOption
+              tagName="LGBTQ+ Friendly"
+              postTags={postTags}
+              handleSelect={handleSelect}
+            />
+          </div>
+          
         </div>
-        <div className="posts-container">
-          <input
+          <input className="input"
             type="text"
             value={body}
             onChange={handleInputChange}
             placeholder="Post your experience here..."
           />
-        </div>
         <button
           type="button"
           className={`inline-flex items-center gap-x-1.5 rounded-full bg-[#512589] text-white border-[#512589] px-3.5 py-1.5 text-sm font-semibold shadow-sm border`}
