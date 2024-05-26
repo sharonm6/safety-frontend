@@ -9,6 +9,9 @@ const Modal = ({ isOpen, description, onClose }) => {
   };
 
   const renderSafetyRating = (safety) => {
+    if (safety === -1) {
+      return null; 
+    }
     const rating = [];
     for (let i = 0; i < 5; i++) {
       if (i < safety) {
@@ -31,8 +34,8 @@ const Modal = ({ isOpen, description, onClose }) => {
   };
 
   return (
-    <div className={`modal ${isOpen ? 'open' : ''}`} onClick={handleBackgroundClick}>
-      <div className="modal-content" style={{ position: 'relative' }}>
+    <div className={`modal ${isOpen ? 'open' : ''}`} onClick={handleBackgroundClick} style={{height: description.safety === -1 ? '750px' : 'auto'}}>
+    <div className="modal-content" style={{ position: 'relative' }}>
         <div style={{ flexGrow: 1 }}>
           <div>
             <p className="location-name" style={{ margin: 6, marginTop: 15 }}>{description.name}</p>
@@ -40,6 +43,7 @@ const Modal = ({ isOpen, description, onClose }) => {
           <div className="location-address">
             <p style={{ margin: 6, marginTop: 0 }}>{description.address}</p>
           </div>
+          {description.safety !== -1 && (
           <div style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
             <div className="safety-score-text">
               <p style={{ margin: 6 }}>Safety Score: </p>
@@ -49,6 +53,7 @@ const Modal = ({ isOpen, description, onClose }) => {
               {renderSafetyRating(description.safety)}
             </div>
           </div>
+          )}
           <div className="directions-button" style={{ display: 'flex', alignItems: 'center' }}>
             <button
               style={{

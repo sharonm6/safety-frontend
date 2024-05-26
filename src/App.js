@@ -25,6 +25,17 @@ const Marker = ({ onClick, children, feature }) => {
   );
 };
 
+
+  // Initialize the geocoder
+  const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+    marker: {
+      color: '#b1282d',
+    },
+    placeholder: "Search",
+  });
+
 const MapComponent = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -34,6 +45,7 @@ const MapComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fetchedData, setFetchedData] = useState(null); 
   const markersRef = useRef([]);
+  const [originalLocation, setOriginalLocation] = useState(null);
 
   useEffect(() => {
     console.log("Initializing the map");
@@ -60,16 +72,6 @@ const MapComponent = () => {
     // Add navigation control (the +/- zoom buttons)
     mapRef.current.addControl(new mapboxgl.NavigationControl());
 
-    // Initialize the geocoder
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-      marker: {
-        color: '#b1282d',
-      },
-      placeholder: "Search",
-    });
-
     // Add the geocoder to the map
     mapRef.current.addControl(geocoder, "top-left");
 
@@ -80,6 +82,13 @@ const MapComponent = () => {
         const [lng, lat] = result.geometry.coordinates;
         const currentHour = new Date().getHours();
 
+        setOriginalLocation({
+          name: result.place_name,
+          address: result.text,
+          coordinates: [lng, lat],
+        });
+        console.log(originalLocation);
+        
         clearMarkers();
 
         fetch(`http://127.0.0.1:5000/map/nearby?lat=${lat}&lon=${lng}&time=${currentHour}`, {
@@ -110,6 +119,7 @@ const MapComponent = () => {
     };
   }, []);
 
+
   useEffect(() => {
     if (fetchedData && fetchedData.data && fetchedData.data.features) {
       clearMarkers();
@@ -126,7 +136,25 @@ const MapComponent = () => {
         markersRef.current.push(marker);
       });
     }
-  }, [fetchedData]);
+    if (originalLocation) {
+      const originalMarker = new mapboxgl.Marker({ color: "#b1282d" })
+        .setLngLat(originalLocation.coordinates)
+        .addTo(mapRef.current);
+  
+      // event listener for original location marker
+      originalMarker.getElement().addEventListener("click", () => {
+        markerClicked(
+          originalLocation.address,
+          originalLocation.name,
+          -1
+        );
+      });
+  
+      markersRef.current.push(originalMarker);
+    }
+
+  
+  }, [fetchedData, originalLocation]);
 
   useEffect(() => {
     fetch('http://127.0.0.1:5000/map/heatmap?user_id=3995e0eb01af4714b3724b0e8a65661f', {
