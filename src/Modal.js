@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import "./Modal.css";
+import { Link } from "react-router-dom";
 
 const Modal = ({
   isOpen,
@@ -21,7 +22,7 @@ const Modal = ({
 
   const renderSafetyRating = (safety) => {
     if (safety === -1) {
-      return null; 
+      return null;
     }
     const rating = [];
     for (let i = 0; i < 5; i++) {
@@ -151,12 +152,16 @@ const Modal = ({
   }
 
   return (
-    <div className={`modal ${isOpen ? 'open' : ''}`} onClick={handleBackgroundClick} style={{height: description.safety === -1 ? '750px' : 'auto'}}>
+    <div
+      className={`modal ${isOpen ? "open" : ""}`}
+      onClick={handleBackgroundClick}
+      style={{ height: description.safety === -1 ? "750px" : "auto" }}
+    >
       <div
         id="instructions"
         className={
           hasTripInstructions
-            ? "text-xl flex flex-col align-right mt-36 bg-white rounded-lg shadow-sm ml-28 mr-4 p-6 list-decimal"
+            ? "text-xl flex flex-col align-right mt-36 bg-white rounded-lg shadow-sm ml-28 mr-4 p-6 Hollywood"
             : "hidden"
         }
       ></div>
@@ -171,17 +176,22 @@ const Modal = ({
             <p style={{ margin: 6, marginTop: 0 }}>{description.address}</p>
           </div>
           {description.safety !== -1 && (
-          <div style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
-            <div className="safety-score-text">
-              <p style={{ margin: 6 }}>Safety Score: </p>
+            <div
+              style={{ display: "flex", alignItems: "center", marginTop: 10 }}
+            >
+              <div className="safety-score-text">
+                <p style={{ margin: 6 }}>Safety Score: </p>
+              </div>
+              <div className="safety-hearts">
+                {/* Render safety rating hearts */}
+                {renderSafetyRating(description.safety)}
+              </div>
             </div>
-            <div className="safety-hearts">
-              {/* Render safety rating hearts */}
-              {renderSafetyRating(description.safety)}
-            </div>
-          </div>
           )}
-          <div className="directions-button" style={{ display: 'flex', alignItems: 'center' }}>
+          <div
+            className="directions-button"
+            style={{ display: "flex", alignItems: "center" }}
+          >
             <button
               style={{
                 display: "flex", // Ensure flexbox layout for the button content
@@ -225,20 +235,22 @@ const Modal = ({
               </svg>
               Directions
             </button>
-            <button
-              style={{
-                margin: 6,
-                marginTop: 10,
-                borderRadius: 25,
-                border: "none",
-                backgroundColor: "rgb(81,37,137)",
-                color: "white",
-                height: "30px",
-                width: "130px",
-              }}
-            >
-              Experiences
-            </button>
+            <Link to="/posts">
+              <button
+                style={{
+                  margin: 6,
+                  marginTop: 10,
+                  borderRadius: 25,
+                  border: "none",
+                  backgroundColor: "rgb(81,37,137)",
+                  color: "white",
+                  height: "30px",
+                  width: "130px",
+                }}
+              >
+                Experiences
+              </button>
+            </Link>
           </div>
         </div>
         {/* <svg
