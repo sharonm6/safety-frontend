@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -7,6 +7,7 @@ import ReactDOM from "react-dom";
 import geoJson from "./chicago-parks.json";
 import "./index.css";
 import HeatMapToggle from './components/HeatMapToggle';
+import HeatLayer from './components/HeatLayer';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXVkLWRyZWFtcyIsImEiOiJjbHdtazk1eTkwaDUxMmlwb2d1ZzM1N3ZtIn0.fK_tYF0yFBfCum4y4LXtSA';
 
@@ -25,8 +26,11 @@ const Marker = ({ onClick, children, feature }) => {
 const MapComponent = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
+  const [heatmapData, setHeatmapData] = useState(null);
+  const [showHeatmap, setShowHeatmap] = useState(true);
 
   useEffect(() => {
+    console.log("setting map back to no heat map");
     // Initialize the map
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -75,6 +79,18 @@ const MapComponent = () => {
     // Add the geocoder to the map
     mapRef.current.addControl(geocoder, 'top-left');
 
+    fetch("http://127.0.0.1:5000/map/heatmap?user_id=3995e0eb01af4714b3724b0e8a65661f", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        setHeatmapData(json.data);
+      });
+
     // Event listener for when a result is selected
     geocoder.on('result', (e) => {
       const { result } = e;
@@ -117,25 +133,15 @@ const MapComponent = () => {
   );
 
   const handleHeatmapToggle = () => {
-    const fetchData = () => {
-        fetch("http://127.0.0.1:5000/map/heatmap?user_id=3995e0eb01af4714b3724b0e8a65661f", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            console.log(json);
-          });
-      };
-      fetchData();
+   // visibility
+   setShowHeatmap(!showHeatmap);
   };    
 
     return (
         <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
         <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
         <HeatMapToggle onClick={handleHeatmapToggle} />
+        {showHeatmap && heatmapData && <HeatLayer map={mapRef.current} heatData={heatmapData} />}
         </div>
     );
 };
