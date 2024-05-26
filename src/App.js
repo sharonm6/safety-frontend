@@ -1,17 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import SearchBar from './components/SearchBar/SearchBar';
-import SearchResultsList from './components/SearchBar/SearchResultsList';
 import ReactDOM from "react-dom";
-import SearchBar from './components/SearchBar';
 import geoJson from "./chicago-parks.json";
+import Modal from './Modal';
 import "./index.css";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXVkLWRyZWFtcyIsImEiOiJjbHdtazk1eTkwaDUxMmlwb2d1ZzM1N3ZtIn0.fK_tYF0yFBfCum4y4LXtSA';
 
 const Marker = ({ onClick, children, feature }) => {
   const _onClick = () => {
-    onClick(feature.properties.description);
+    onClick(feature.properties.title, feature.properties.address);
   };
 
   return (
@@ -21,13 +19,16 @@ const Marker = ({ onClick, children, feature }) => {
   );
 };
 
+
 export default function App() {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-117.838914978);
   const [lat, setLat] = useState(33.6405407712);
   const [zoom, setZoom] = useState(14);
-  const [results, setResults] = useState([]);
+  const [modalDescription, setModalDescription] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -74,18 +75,19 @@ export default function App() {
     
   });
 
-  const markerClicked = (title) => {
-    window.alert(title);
+  const markerClicked = (title, address) => {
+    setModalDescription({title, address});
+    setIsModalOpen(true);
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div>
-      <div className="search-bar-container">
-        <SearchBar setResults={setResults} />
-        {results && results.length > 0 && <SearchResultsList results={results} />}
-      </div>
       <div ref={mapContainer} className="map-container" />
+      <Modal isOpen={isModalOpen} description={modalDescription} onClose={closeModal} />
     </div>
   );
 }
