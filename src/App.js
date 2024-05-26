@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
+import SearchBar from './components/SearchBar/SearchBar';
+import SearchResultsList from './components/SearchBar/SearchResultsList';
 import ReactDOM from "react-dom";
 import SearchBar from './components/SearchBar';
 import geoJson from "./chicago-parks.json";
@@ -25,7 +27,7 @@ export default function App() {
   const [lng, setLng] = useState(-117.838914978);
   const [lat, setLat] = useState(33.6405407712);
   const [zoom, setZoom] = useState(14);
-  const [state, setState] = useState({dataSource: []});
+  const [results, setResults] = useState([]);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -79,18 +81,10 @@ export default function App() {
 
   return (
     <div>
-      {/* <div className="sidebar">
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-      </div> */}
-      <SearchBar
-        dataSource={state.dataSource}
-        onChange={(value) => setState({dataSource: [ value, value+value, value+value+value]})}
-        onRequestSearch={() => console.log('onRequestSearch')}
-        style={{
-            margin: '0 auto',
-            maxWidth: 800
-        }}
-      />
+      <div className="search-bar-container">
+        <SearchBar setResults={setResults} />
+        {results && results.length > 0 && <SearchResultsList results={results} />}
+      </div>
       <div ref={mapContainer} className="map-container" />
     </div>
   );
