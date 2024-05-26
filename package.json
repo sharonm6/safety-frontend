@@ -24,5 +24,8 @@
         "not ie 11"
     ],
     "author": "Mapbox",
-    "license": "MIT"
+    "license": "MIT",
+    "devDependencies": {
+        "@svgr/webpack": "^8.1.0"
+    }
 }

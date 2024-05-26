@@ -5,6 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import ReactDOM from "react-dom";
 import geoJson from "./chicago-parks.json";
+import Modal from './Modal';
 import "./index.css";
 import HeatMapToggle from './components/HeatMapToggle';
 import HeatLayer from './components/HeatLayer';
@@ -12,22 +13,25 @@ import HeatLayer from './components/HeatLayer';
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXVkLWRyZWFtcyIsImEiOiJjbHdtazk1eTkwaDUxMmlwb2d1ZzM1N3ZtIn0.fK_tYF0yFBfCum4y4LXtSA';
 
 const Marker = ({ onClick, children, feature }) => {
-    const _onClick = () => {
-      onClick(feature.properties.description);
-    };
-  
-    return (
-      <button onClick={_onClick} className="marker">
-        {children}
-      </button>
-    );
+  const _onClick = () => {
+    onClick(feature.properties.title, feature.properties.address);
   };
+
+  return (
+    <button onClick={_onClick} className="marker">
+      {children}
+    </button>
+  );
+};
+
 
 const MapComponent = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const [heatmapData, setHeatmapData] = useState(null);
   const [showHeatmap, setShowHeatmap] = useState(true);
+  const [modalDescription, setModalDescription] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     console.log("setting map back to no heat map");
@@ -128,20 +132,26 @@ const MapComponent = () => {
     };
   }, []);
 
-  const markerClicked = (title) => (
-    window.alert(title)
-  );
+  const markerClicked = (title, address) => {
+    setModalDescription({title, address});
+    setIsModalOpen(true);
+  };
 
   const handleHeatmapToggle = () => {
    // visibility
    setShowHeatmap(!showHeatmap);
   };    
+    
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
     return (
         <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
         <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
         <HeatMapToggle onClick={handleHeatmapToggle} />
         {showHeatmap && heatmapData && <HeatLayer map={mapRef.current} heatData={heatmapData} />}
+        <Modal isOpen={isModalOpen} description={modalDescription} onClose={closeModal} />
         </div>
     );
 };

@@ -10,7 +10,7 @@ body, html {
 }
 
 .marker {
-    position: relative; /* Ensure the marker has a relative position */
+    position: relative; 
     width: 30px;
     height: 30px;
     background-color: #512589;
@@ -19,14 +19,16 @@ body, html {
     border: 2px;
 }
 
-/* Inner circle */
 .marker::after {
     content: '';
     position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 85%;
-    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
 }
 
 .mapboxgl-ctrl-top-right {
