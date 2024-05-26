@@ -27,15 +27,14 @@
   border-top-right-radius: 10px;
   margin: auto;
   top: 80%; 
-  width: 96%; /* Width */
+  width: 100%; /* Width */
   height: 20%; /*  height  */
 }
 
 .location-name {
-  font-weight:300;
-  font-size:xx-large;
-  margin:0px ;
-  
+  font-weight: 500;
+  font-size:25px;
+  margin: 0px;
 }
 
 .location-address {
@@ -43,7 +42,6 @@
   font-size:large;
   padding-top: 0px;
 }
-
 
 .safety-score {
   font-weight:100;
@@ -55,4 +53,10 @@
   font-weight:100;
   font-size:large;
   border-radius: 25;
+}
+
+.safety-hearts {
+  display: flex;
+  gap: 5px;
+  margin-left: 5px;
 }
