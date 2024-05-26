@@ -4,16 +4,17 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import ReactDOM from "react-dom";
-import geoJson from "./chicago-parks.json";
+// import geoJson from "./data.json";
 import Modal from './Modal';
 import "./index.css";
 import HeatMapToggle from './components/HeatMapToggle';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXVkLWRyZWFtcyIsImEiOiJjbHdtazk1eTkwaDUxMmlwb2d1ZzM1N3ZtIn0.fK_tYF0yFBfCum4y4LXtSA';
 
+
 const Marker = ({ onClick, children, feature }) => {
   const _onClick = () => {
-    onClick(feature.properties.title, feature.properties.address);
+    onClick(feature.properties.name, feature.properties.address, feature.properties.safety);
   };
 
   return (
@@ -29,15 +30,16 @@ const MapComponent = () => {
   const mapRef = useRef(null);
   const [modalDescription, setModalDescription] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fetchedData, setFetchedData] = useState(null); 
 
   useEffect(() => {
     // Initialize the map
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/aud-dreams/clwmm6n3200vc01q17qorbayl',
-      center: [-117.838914978, 33.6405407712], // Initial center [lng, lat]
+      center: [-118.23965907096863, 34.055922765889704], // Initial center [lng, lat]
       zoom: 14, // Initial zoom
-    });
+    });  
 
     // Add geolocate control to the map
     mapRef.current.addControl(
@@ -54,8 +56,8 @@ const MapComponent = () => {
     // Add navigation control (the +/- zoom buttons)
     mapRef.current.addControl(new mapboxgl.NavigationControl());
 
-    if (geoJson && geoJson.features) {
-      geoJson.features.forEach((feature) => {
+    if (fetchedData && fetchedData.data && fetchedData.data.features) {
+      fetchedData.data.features.forEach((feature) => {
       const ref = React.createRef();
       ref.current = document.createElement("div");
       ReactDOM.render(
@@ -96,6 +98,9 @@ const MapComponent = () => {
               .then((response) => response.json())
               .then((json) => {
                 console.log(json);
+                // fetchedData = json;
+                setFetchedData(json);
+                // downloadJSON(json); 
               })
               .catch((error) => {
                   console.error('Error fetching data:', error);
@@ -114,10 +119,11 @@ const MapComponent = () => {
     return () => {
       mapRef.current.remove();
     };
-  }, []);
+  }, [fetchedData]);
 
-  const markerClicked = (title, address) => {
-    setModalDescription({title, address});
+
+  const markerClicked = (name, address, safety) => {
+    setModalDescription({name, address, safety});
     setIsModalOpen(true);
   };
 
@@ -140,6 +146,7 @@ const MapComponent = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
 
     return (
         <div style={{ position: 'relative', width: '100%', height: '100vh' }}>

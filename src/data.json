@@ -1,0 +1,23 @@
+{
+  "data": {
+    "features": [
+      {
+        "geometry": {
+          "coordinates": [
+            -118.23965907096863,
+            34.055922765889704
+          ],
+          "type": "Point"
+        },
+        "properties": {
+          "address": "416 North Main Street",
+          "name": "Pico House",
+          "safety": 3
+        },
+        "type": "Feature"
+      }
+    ],
+    "type": "FeatureCollection"
+  },
+  "success": true
+}
