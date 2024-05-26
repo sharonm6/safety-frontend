@@ -9,7 +9,6 @@ body, html {
     width: 100vw;
 }
 
-  
 .marker {
     position: relative; /* Ensure the marker has a relative position */
     width: 30px;
@@ -28,4 +27,25 @@ body, html {
     left: 20px;
     width: 85%;
     z-index: 1000;
-  }
+}
+
+.mapboxgl-ctrl-top-right {
+    top: auto;
+    bottom: 20px;
+    right: 10px;
+}
+
+.mapboxgl-ctrl-top-left {
+    top: 12px;
+    left: 15px;
+    right: 15px;
+    width: 90%;
+}
+
+.mapboxgl-ctrl-bottom-right {
+    display: None
+}
+
+.mapboxgl-ctrl-bottom-left {
+    display: None
+}

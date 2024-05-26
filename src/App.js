@@ -6,6 +6,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import ReactDOM from "react-dom";
 import geoJson from "./chicago-parks.json";
 import "./index.css";
+import HeatMapToggle from './components/HeatMapToggle';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXVkLWRyZWFtcyIsImEiOiJjbHdtazk1eTkwaDUxMmlwb2d1ZzM1N3ZtIn0.fK_tYF0yFBfCum4y4LXtSA';
 
@@ -66,9 +67,9 @@ const MapComponent = () => {
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       marker: {
-        color: 'orange',
+        color: '#512589',
       },
-      placeholder: 'Search for places',
+      placeholder: 'Search',
     });
 
     // Add the geocoder to the map
@@ -79,6 +80,25 @@ const MapComponent = () => {
       const { result } = e;
       if (result && result.geometry && result.geometry.coordinates) {
         const [lng, lat] = result.geometry.coordinates;
+        const currentHour = new Date().getHours();
+        const fetchData = () => {
+        console.log("flying and sending");
+        fetch(`http://127.0.0.1:5000/map/nearby?lat=${lat}&lon=${lng}&time=${currentHour}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+              .then((response) => response.json())
+              .then((json) => {
+                console.log(json);
+              })
+              .catch((error) => {
+                  console.error('Error fetching data:', error);
+              });
+        };
+        fetchData();
+
         // Fly to the selected location
         mapRef.current.flyTo({
           center: [lng, lat],
@@ -96,7 +116,28 @@ const MapComponent = () => {
     window.alert(title)
   );
 
-  return <div ref={mapContainerRef} style={{ width: '100%', height: '100vh' }} />;
+  const handleHeatmapToggle = () => {
+    const fetchData = () => {
+        fetch("http://127.0.0.1:5000/map/heatmap?user_id=3995e0eb01af4714b3724b0e8a65661f", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+          });
+      };
+      fetchData();
+  };    
+
+    return (
+        <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
+        <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
+        <HeatMapToggle onClick={handleHeatmapToggle} />
+        </div>
+    );
 };
 
 export default MapComponent;
