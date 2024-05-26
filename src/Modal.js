@@ -20,6 +20,9 @@ const Modal = ({
   };
 
   const renderSafetyRating = (safety) => {
+    if (safety === -1) {
+      return null; 
+    }
     const rating = [];
     for (let i = 0; i < 5; i++) {
       if (i < safety) {
@@ -148,10 +151,7 @@ const Modal = ({
   }
 
   return (
-    <div
-      className={`modal ${isOpen ? "open" : ""}`}
-      onClick={handleBackgroundClick}
-    >
+    <div className={`modal ${isOpen ? 'open' : ''}`} onClick={handleBackgroundClick} style={{height: description.safety === -1 ? '750px' : 'auto'}}>
       <div
         id="instructions"
         className={
@@ -170,7 +170,8 @@ const Modal = ({
           <div className="location-address">
             <p style={{ margin: 6, marginTop: 0 }}>{description.address}</p>
           </div>
-          <div style={{ display: "flex", alignItems: "center", marginTop: 10 }}>
+          {description.safety !== -1 && (
+          <div style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
             <div className="safety-score-text">
               <p style={{ margin: 6 }}>Safety Score: </p>
             </div>
@@ -179,10 +180,8 @@ const Modal = ({
               {renderSafetyRating(description.safety)}
             </div>
           </div>
-          <div
-            className="directions-button"
-            style={{ display: "flex", alignItems: "center" }}
-          >
+          )}
+          <div className="directions-button" style={{ display: 'flex', alignItems: 'center' }}>
             <button
               style={{
                 display: "flex", // Ensure flexbox layout for the button content
