@@ -9,7 +9,7 @@ const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <Posts name="Nigeria" address="42 westpark" />
+    <App />
+    {/* <Posts name="Nigeria" address="42 westpark" /> */}
   </React.StrictMode>
 );
