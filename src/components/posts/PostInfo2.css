@@ -45,6 +45,7 @@
 
 .safety-hearts {
   display: flex;
+  justify-content: center;
   padding-right: 1px;
   margin-top: 10px;
   margin-left: -10px;
@@ -54,4 +55,8 @@
   font-weight: 500;
   font-size: medium;
   border-radius: 25;
+}
+
+.cursor-pointer {
+  margin-left: -10px;
 }

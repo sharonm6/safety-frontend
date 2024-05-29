@@ -1,27 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
+import { HeartIcon } from "@heroicons/react/16/solid";
 import "./PostInfo2.css";
 
 const PostInfo2 = ({ title, address }) => {
+  const [filledHearts, setFilledHearts] = useState(0);
+
+  const handleHeartClick = (index) => {
+    setFilledHearts(index + 1);
+  };
+
   const renderSafetyRating = () => {
     const rating = [];
     for (let i = 0; i < 5; i++) {
-      // Render grey heart
       rating.push(
-        <svg
+        <HeartIcon
           key={i}
-          width="40"
-          height="30"
-          viewBox="0 0 18 17"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5 5L6.91904 7L8.83809 9L13 5"
-            stroke="#DCDCDC"
-            strokeWidth="10"
-            strokeLinecap="round"
-          />
-        </svg>
+          className="h-20 w-20 cursor-pointer"
+          style={{ color: i < filledHearts ? "#DABDFF" : "#D1D5DB" }}
+          onClick={() => handleHeartClick(i)}
+        />
       );
     }
     return rating;
@@ -35,7 +32,7 @@ const PostInfo2 = ({ title, address }) => {
         </div>
         <div className="post-address">{address}</div>
         <div className="post-safety">
-          <div style={{ display: "flex", alignItems: "center", marginTop: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 10 }}>
             <div className="safety-hearts" style={{ marginLeft: 5 }}>
               {renderSafetyRating()}
             </div>

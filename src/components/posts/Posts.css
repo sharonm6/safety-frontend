@@ -35,3 +35,20 @@
     margin-right: 20px;
     background-color: rgba(232, 215, 255, 0.5) ;
 }
+
+.post-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f3e9ff;
+    height: 80%;
+    resize: none; /* Prevent resizing */
+}
+
+.posts-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+  

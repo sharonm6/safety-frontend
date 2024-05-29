@@ -5,12 +5,34 @@
     justify-content: space-between;
     padding-left: 20px;
     padding-right: 20px;
-    padding-bottom: 40px;
+    padding-bottom: 10px;
+}
+  
+.post-input {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f3e9ff;
+    height: 500px;
+    resize: none; /* Prevent resizing */
+    margin: 20px;
 }
 
-.bottom {
-    background-color: rgba(232, 215, 255, 0.5); 
-    z-index: 0;
-    height: 100%;
-    margin: 10px;
+.post-button {
+    background-color: #512589;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 90%;
+}
+
+.post-button:hover {
+    background-color: #3a1a61;
 }

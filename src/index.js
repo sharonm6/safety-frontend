@@ -18,10 +18,8 @@ root.render(
         <Route path="/posts" element={<Posts />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/createpost" element={<CreatePost />} />
+        
       </Routes>
     </BrowserRouter>
-    {/* <App />
-    {/* <Posts name="Hollywood" address="Highland Ave, Los Angeles, CA" /> */}
-    {/* <CreatePost name="Hollywood" address="Highland Ave, Los Angeles, CA" /> */}
   </React.StrictMode>
 );

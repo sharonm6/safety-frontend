@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import PostTagOption from "./components/posts/PostTagOption";
 import PostInfo2 from "./components/posts/PostInfo2";
 import "./components/posts/CreatePost.css";
+import { Link } from "react-router-dom";
 
 
 const CreatePost = ({ name, address }) => {
@@ -38,34 +39,34 @@ const CreatePost = ({ name, address }) => {
     setBody(event.target.value);
   };
 
-  const data = {
-    title: name,
-    location: address,
-    score: safety,
-    body: body,
-    tags: getTrueTags(),
-    date: getFormattedDate(),
-    user_id: user_id,
-  };
+  // const handleSubmit = () => {
+  //   const data = {
+  //     title: name,
+  //     location: address,
+  //     score: safety,
+  //     body: body,
+  //     tags: getTrueTags(),
+  //     date: getFormattedDate(),
+  //     user_id: user_id,
+  //   };
 
-  const handleSubmit = () => {
-    const fetchData = () => {
-      fetch(`http://127.0.0.1:5000/newpost?`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((response) => response.json())
-        .then((json) => {
-          if (json["success"]) {
-            setPostid(json["data"]["post_id"]);
-          }
-        });
-    };
-    fetchData();
-  };
+  //   const fetchData = () => {
+  //     fetch(`http://127.0.0.1:5000/newpost`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(data),
+  //     })
+  //       .then((response) => response.json())
+  //       .then((json) => {
+  //         if (json["success"]) {
+  //           setPostid(json["data"]["post_id"]);
+  //         }
+  //       });
+  //   };
+  //   fetchData();
+  // };
 
   const handleSelect = (tagName) => {
     let newState = { ...postTags };
@@ -107,19 +108,23 @@ const CreatePost = ({ name, address }) => {
           </div>
           
         </div>
-          <input className="input"
-            type="text"
+          <div className="input-container">
+          <textarea
             value={body}
             onChange={handleInputChange}
             placeholder="Post your experience here..."
+            className="post-input"
           />
-        <button
-          type="button"
-          className={`inline-flex items-center gap-x-1.5 rounded-full bg-[#512589] text-white border-[#512589] px-3.5 py-1.5 text-sm font-semibold shadow-sm border`}
-          onClick={() => handleSubmit()}
-        >
-          Post
-        </button>
+        </div>
+        <Link to="/">
+          <button
+            type="button"
+            className="post-button"
+          >
+            Post
+          </button>
+        </Link>
+        
       </div>
     </div>
   );
