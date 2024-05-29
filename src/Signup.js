@@ -12,7 +12,7 @@ const SignUp = () => {
         <body class="h-full">
         ```
       */}
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-4 lg:px-8">
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" action="#" method="POST">
             <div>
@@ -35,7 +35,7 @@ const SignUp = () => {
             </div>
 
             <fieldset>
-              <legend className="text-sm font-semibold leading-6 text-gray-900">
+              <legend className="text-sm font-semibold leading-6 pt-6 text-gray-900">
                 Gender
               </legend>
               <div className="mt-6 space-y-6">
@@ -50,7 +50,7 @@ const SignUp = () => {
                     htmlFor="push-everything-gender"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    female
+                    Female
                   </label>
                 </div>
                 <div className="flex items-center gap-x-3">
@@ -64,7 +64,7 @@ const SignUp = () => {
                     htmlFor="push-email-gender"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    male
+                    Male
                   </label>
                 </div>
                 <div className="flex items-center gap-x-3">
@@ -78,14 +78,14 @@ const SignUp = () => {
                     htmlFor="push-nothing-gender"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    other
+                    Other
                   </label>
                 </div>
               </div>
             </fieldset>
 
             <fieldset>
-              <legend className="text-sm font-semibold leading-6 text-gray-900">
+              <legend className="text-sm font-semibold leading-6 pt-6 text-gray-900">
                 Descent
               </legend>
               <div className="mt-6 space-y-6">
@@ -114,7 +114,7 @@ const SignUp = () => {
                     htmlFor="push-everything-descent"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    asian
+                    Black
                   </label>
                 </div>
                 <div className="flex items-center gap-x-3">
@@ -128,7 +128,7 @@ const SignUp = () => {
                     htmlFor="push-everything-descent"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    black
+                    Hispanic
                   </label>
                 </div>
                 <div className="flex items-center gap-x-3">
@@ -142,7 +142,7 @@ const SignUp = () => {
                     htmlFor="push-everything-descent"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    hispanic
+                    White
                   </label>
                 </div>
                 <div className="flex items-center gap-x-3">
@@ -156,21 +156,7 @@ const SignUp = () => {
                     htmlFor="push-everything-descent"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    white
-                  </label>
-                </div>
-                <div className="flex items-center gap-x-3">
-                  <input
-                    id="push-everything-descent"
-                    name="push-notifications-descent"
-                    type="radio"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label
-                    htmlFor="push-everything-descent"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    pacific
+                    Pacific Islander
                   </label>
                   <div className="flex items-center gap-x-3">
                     <input
@@ -183,22 +169,8 @@ const SignUp = () => {
                       htmlFor="push-everything-descent"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
-                      indian
+                      Indian
                     </label>
-                    <div className="flex items-center gap-x-3">
-                      <input
-                        id="push-everything-descent"
-                        name="push-notifications-descent"
-                        type="radio"
-                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                      />
-                      <label
-                        htmlFor="push-everything-descent"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        other
-                      </label>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -207,9 +179,9 @@ const SignUp = () => {
             <div>
               <label
                 htmlFor="age"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium leading-6 pt-6 text-gray-900"
               >
-                age
+                Age
               </label>
               <div className="mt-2">
                 <input
@@ -224,16 +196,16 @@ const SignUp = () => {
 
             <div>
               <Link to="/">
-                <button className="flex w-full justify-center rounded-md bg-gray-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">
-                  Cancel
+                <button
+                  type="submit"
+                  className="bg-light-purple mt-8 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Save
                 </button>
               </Link>
               <Link to="/">
-                <button
-                  type="submit"
-                  className="mt-2 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Save
+                <button className="mt-2 flex w-full justify-center rounded-md bg-gray-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">
+                  Cancel
                 </button>
               </Link>
             </div>
